@@ -1,4 +1,5 @@
 import ora from "ora";
+import type { Ora } from "ora";
 import chalk from "chalk";
 import path from "path";
 import fs from "fs/promises";
@@ -28,7 +29,7 @@ export class DetectCommand {
 
   private async detectFile(
     filePath: string,
-    spinner: ora.Ora,
+    spinner: Ora,
     options: any,
   ): Promise<void> {
     spinner.start(chalk.gray("Analyzing file..."));
@@ -95,7 +96,7 @@ export class DetectCommand {
 
   private async detectProject(
     projectPath: string,
-    spinner: ora.Ora,
+    spinner: Ora,
     options: any,
   ): Promise<void> {
     spinner.start(chalk.gray("Scanning project..."));

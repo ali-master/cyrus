@@ -519,9 +519,10 @@ export class MentorCommand {
     }
   }
 
-  private getFocusAreaInsight(
-    area: string,
-  ): { title: string; content: string } {
+  private getFocusAreaInsight(area: string): {
+    title: string;
+    content: string;
+  } {
     const insights = {
       quality: {
         title: "📋 Code Quality",

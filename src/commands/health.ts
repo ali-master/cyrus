@@ -27,7 +27,7 @@ export class HealthCommand {
   public async handle(options: any = {}): Promise<void> {
     try {
       // Validate configuration
-      if (!this.configManager.hasValidConfig()) {
+      if (!(await this.configManager.hasValidConfig())) {
         console.log(chalk.red("❌ No valid configuration found."));
         console.log(chalk.yellow("Please run: cyrus config init"));
         return;
