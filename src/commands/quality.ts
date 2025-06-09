@@ -1,13 +1,13 @@
 import fs from "fs";
 import path from "path";
 import chalk from "chalk";
-import ora from "ora";
 import { glob } from "glob";
 import { AIService } from "../services/ai-service";
 import { CodeAnalyzer } from "../analyzers/code-analyzer";
 import { LanguageDetector } from "../analyzers/language-detector";
 import { ConfigManager } from "../config/config";
 import { renderMarkdown } from "../utils/render-markdown";
+import { createFileProcessingProgress } from "../utils/progress-bar";
 import {
   validateFileExists,
   errorHandler,
@@ -59,15 +59,11 @@ export class QualityCommand {
         return;
       }
 
-      const spinner = ora("Analyzing code quality...").start();
-
       try {
         const qualityMetrics = await this.analyzeQuality(target, options);
-        spinner.succeed("Quality analysis completed");
-
         await this.displayQualityReport(qualityMetrics);
       } catch (error) {
-        spinner.fail("Quality analysis failed");
+        console.log(); // Add newline after progress bar
         errorHandler.handle(
           new AnalysisError(
             `Quality analysis failed: ${(error as Error).message}`,
@@ -89,6 +85,17 @@ export class QualityCommand {
     const isDirectory =
       fs.existsSync(target) && fs.statSync(target).isDirectory();
     let files: string[] = [];
+
+    // Create progress bar
+    const progressBar = createFileProcessingProgress(1, {
+      // Initial estimate, will update
+      theme: "modern",
+      showETA: true,
+      showSpeed: true,
+    });
+
+    progressBar.start();
+    progressBar.updateStage("Scanning files", 0);
 
     if (isDirectory) {
       // Analyze directory
@@ -112,8 +119,12 @@ export class QualityCommand {
     }
 
     if (files.length === 0) {
+      progressBar.fail("No supported files found for analysis");
       throw new AnalysisError("No supported files found for analysis", target);
     }
+
+    const filesToAnalyze = files.slice(0, options.maxFiles || 50);
+    progressBar.updateStage("Scanning files", 100);
 
     // Analyze each file
     const fileQualities: FileQuality[] = [];
@@ -121,7 +132,14 @@ export class QualityCommand {
     let totalIssues = 0;
     let totalComplexity = 0;
 
-    for (const file of files.slice(0, options.maxFiles || 50)) {
+    progressBar.incrementStage(0); // Move to "Analyzing code" stage
+
+    for (let i = 0; i < filesToAnalyze.length; i++) {
+      const file = filesToAnalyze[i];
+      const progress = ((i + 1) / filesToAnalyze.length) * 100;
+
+      progressBar.updateProgress(progress, i + 1);
+
       try {
         const result = await this.codeAnalyzer.analyzeFile(file);
         const fileScore = this.calculateFileScore(result);
@@ -140,9 +158,11 @@ export class QualityCommand {
         totalIssues += result.diagnostics.length;
       } catch {
         // Skip files that can't be analyzed
-        continue;
       }
     }
+
+    // Move to insights generation stage
+    progressBar.incrementStage(25);
 
     // Calculate overall metrics
     const averageScore =
@@ -153,9 +173,13 @@ export class QualityCommand {
       totalComplexity,
       totalLines,
     );
+
+    progressBar.updateStage("Generating insights", 50);
     const testCoverage = await this.estimateTestCoverage(target, files);
     const documentation = this.calculateDocumentationScore(target);
     const security = await this.calculateSecurityScore(files.slice(0, 10));
+
+    progressBar.updateStage("Generating insights", 80);
 
     // Generate AI recommendations
     const recommendations = await this.generateRecommendations({
@@ -170,7 +194,10 @@ export class QualityCommand {
       totalIssues,
     });
 
-    return {
+    // Finalize report
+    progressBar.updateStage("Finalizing report", 100);
+
+    const result = {
       overallScore: Math.round(
         averageScore * 0.3 +
           codeHealth * 0.2 +
@@ -189,6 +216,13 @@ export class QualityCommand {
       recommendations,
       files: fileQualities.sort((a, b) => a.score - b.score),
     };
+
+    progressBar.complete(
+      `Quality analysis completed for ${files.length} files`,
+    );
+    console.log(); // Add spacing after progress bar
+
+    return result;
   }
 
   private calculateFileScore(result: AnalysisResult): number {

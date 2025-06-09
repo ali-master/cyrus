@@ -1,10 +1,10 @@
 import fs from "fs";
 import chalk from "chalk";
-import ora from "ora";
 import { CodeAnalyzer } from "../analyzers/code-analyzer";
 import { AIService } from "../services/ai-service";
 import { LanguageDetector } from "../analyzers/language-detector";
 import { ConfigManager } from "../config/config";
+import { createAIProgress } from "../utils/progress-bar";
 import {
   validateFileExists,
   handleFileError,
@@ -59,31 +59,39 @@ export class AnalyzeCommand {
         return;
       }
 
-      const spinner = ora("Analyzing code...").start();
+      const progressBar = createAIProgress("code analysis", {
+        theme: "default",
+        showETA: true,
+      });
+
+      progressBar.start();
 
       try {
         // Step 1: Static analysis
-        spinner.text = "Running static analysis...";
+        progressBar.updateStage("Preparing code analysis", 50);
         console.log(chalk.gray("\nStarting static analysis..."));
         const analysisResult = await this.codeAnalyzer.analyzeFile(filePath);
         console.log(chalk.gray("Static analysis completed."));
 
         // Step 2: AI-powered analysis
-        spinner.text = "Running AI analysis...";
+        progressBar.incrementStage(25);
         console.log(chalk.gray("Starting AI analysis..."));
         let code: string;
         try {
           code = fs.readFileSync(filePath, "utf-8");
         } catch (error) {
-          spinner.fail("Failed to read file");
+          progressBar.fail("Failed to read file");
           handleFileError(error as Error, filePath);
           return;
         }
         console.log(chalk.gray("Calling AI service..."));
+        progressBar.updateStage("Processing with AI", 80);
         const aiAnalysis = await this.aiService.analyzeCode(code, filePath);
-        console.log(chalk.gray("AI analysis completed."));
+        console.log(chalk.gray("\nAI analysis completed."));
 
-        spinner.succeed("Analysis completed");
+        progressBar.incrementStage(100);
+        progressBar.complete("Analysis completed successfully");
+        console.log(); // Add spacing after progress bar
 
         // Display results
         await this.displayResults(filePath, analysisResult, aiAnalysis);
@@ -101,7 +109,8 @@ export class AnalyzeCommand {
           this.displayMetrics(analysisResult);
         }
       } catch (error) {
-        spinner.fail("Analysis failed");
+        progressBar.fail("Analysis failed");
+        console.log(); // Add spacing after progress bar
         errorHandler.handle(
           new AnalysisError(
             `Analysis failed: ${(error as Error).message}`,
@@ -270,20 +279,27 @@ export class AnalyzeCommand {
   }
 
   private async runSecurityScan(code: string, filePath: string): Promise<void> {
-    const spinner = ora("Running security scan...").start();
+    const progressBar = createAIProgress("security scan", {
+      theme: "default",
+      showETA: false,
+    });
+
+    progressBar.start();
 
     try {
+      progressBar.updateStage("Preparing security scan", 30);
       const detection = await LanguageDetector.detectLanguage(filePath, code);
       if (!detection.language) {
-        spinner.fail("Security scan failed: Unknown language");
+        progressBar.fail("Security scan failed: Unknown language");
         return;
       }
 
+      progressBar.updateStage("Processing with AI", 80);
       const vulnerabilities = await this.aiService.scanForSecurity(
         code,
         detection.language,
       );
-      spinner.succeed(
+      progressBar.complete(
         `Security scan completed - found ${vulnerabilities.length} potential issues`,
       );
 
@@ -316,7 +332,7 @@ export class AnalyzeCommand {
         console.log(chalk.green("\n✅ No security vulnerabilities detected"));
       }
     } catch (error) {
-      spinner.fail("Security scan failed");
+      progressBar.fail("Security scan failed");
       console.error(
         chalk.red(`Security scan failed: ${(error as Error).message}`),
       );

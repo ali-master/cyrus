@@ -258,7 +258,7 @@ async function checkConfig(commandName: string) {
   const configManager = ConfigManager.getInstance();
   if (!(await configManager.hasValidConfig())) {
     console.log(chalk.yellow("⚠️ No valid configuration found."));
-    console.log(chalk.white("Run the following command to get started:"));
+    console.log(chalk.white("\nRun the following command to get started:\n"));
     console.log(chalk.cyan("cyrus config init"));
     console.log();
     process.exit(1);

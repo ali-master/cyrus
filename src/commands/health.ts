@@ -1,12 +1,12 @@
 import fs from "fs";
 import path from "path";
 import chalk from "chalk";
-import ora from "ora";
 import { glob } from "glob";
 import { CodeAnalyzer } from "../analyzers/code-analyzer";
 import { AIService } from "../services/ai-service";
 import { LanguageDetector } from "../analyzers/language-detector";
 import { ConfigManager } from "../config/config";
+import { createProgressBar } from "../utils/progress-bar";
 import type {
   SecurityVulnerability,
   ProjectHealth,
@@ -37,7 +37,14 @@ export class HealthCommand {
         chalk.cyan("🔍 Starting comprehensive codebase health scan...\n"),
       );
 
-      const spinner = ora("Discovering source files...").start();
+      const progressBar = createProgressBar(
+        ["Discovering source files", "Analyzing health"],
+        {
+          theme: "gradient",
+          showETA: false,
+        },
+      );
+      progressBar.start();
 
       // Discover source files
       const files = await this.discoverSourceFiles(
@@ -45,7 +52,7 @@ export class HealthCommand {
       );
 
       if (files.length === 0) {
-        spinner.fail("No source files found");
+        progressBar.fail("No source files found");
         console.log(
           chalk.yellow(
             "No supported source files found in the current directory.",
@@ -54,7 +61,7 @@ export class HealthCommand {
         return;
       }
 
-      spinner.succeed(`Found ${files.length} source files to analyze`);
+      progressBar.complete(`Found ${files.length} source files to analyze`);
 
       // Analyze files
       const fileAnalyses = await this.analyzeFiles(files, options);
@@ -128,7 +135,11 @@ export class HealthCommand {
     options: any,
   ): Promise<FileAnalysis[]> {
     const analyses: FileAnalysis[] = [];
-    const spinner = ora();
+    const analysisProgress = createProgressBar(["Analyzing files"], {
+      theme: "gradient",
+      showETA: false,
+    });
+    analysisProgress.start();
 
     const batchSize = options.parallel ? 5 : 1; // Process files in parallel or sequentially
 
@@ -136,8 +147,8 @@ export class HealthCommand {
       const batch = files.slice(i, i + batchSize);
       const batchPromises = batch.map(async (file) => {
         try {
-          spinner.text = `Analyzing ${path.basename(file)} (${i + 1}/${files.length})`;
-          spinner.start();
+          const progress = ((i + 1) / files.length) * 100;
+          analysisProgress.updateProgress(progress);
 
           const content = fs.readFileSync(file, "utf-8");
           const detection = await LanguageDetector.detectLanguage(
@@ -194,11 +205,10 @@ export class HealthCommand {
 
       const batchResults = await Promise.all(batchPromises);
       analyses.push(...(batchResults.filter(Boolean) as FileAnalysis[]));
-
-      spinner.succeed(
-        `Analyzed batch ${Math.ceil((i + 1) / batchSize)}/${Math.ceil(files.length / batchSize)}`,
-      );
     }
+
+    analysisProgress.complete(`Analyzed ${analyses.length} files`);
+    console.log(); // Add spacing after progress bar
 
     return analyses;
   }
