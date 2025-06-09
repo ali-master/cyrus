@@ -34,7 +34,7 @@ export class AnalyzeCommand {
           new ConfigurationError(
             "No valid configuration found. Please run: cyrus config init",
           ),
-          "analyze-command"
+          "analyze-command",
         );
         return;
       }
@@ -54,7 +54,7 @@ export class AnalyzeCommand {
             `Unsupported file type: ${filePath}. Supported extensions: ${LanguageDetector.getSupportedExtensions().join(", ")}`,
             filePath,
           ),
-          "analyze-command"
+          "analyze-command",
         );
         return;
       }
@@ -107,14 +107,14 @@ export class AnalyzeCommand {
             `Analysis failed: ${(error as Error).message}`,
             filePath,
           ),
-          "analyze-command"
+          "analyze-command",
         );
       }
     } catch (error) {
       // Handle error and ensure process doesn't exit immediately
       errorHandler.handle(error as Error, "analyze-command");
       // Give time for error output to be displayed
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
   }
 
@@ -149,7 +149,7 @@ export class AnalyzeCommand {
       console.log(chalk.cyan("\n🤖 AI Analysis:"));
       console.log(JSON.stringify({ aiAnalysis }, null, 2));
     } else {
-      const markdownContent = `\n## 🤖 AI Analysis\n\n${aiAnalysis}`;
+      const markdownContent = `\n\n## 🤖 AI Analysis\n\n${aiAnalysis}`;
       console.log(await renderMarkdown(markdownContent));
     }
   }
@@ -255,7 +255,7 @@ export class AnalyzeCommand {
         console.log(chalk.white(explanation));
       } catch (error) {
         console.error(
-          chalk.red(`Failed to explain error: ${(error as Error).message}`)
+          chalk.red(`Failed to explain error: ${(error as Error).message}`),
         );
       }
     }
@@ -318,7 +318,7 @@ export class AnalyzeCommand {
     } catch (error) {
       spinner.fail("Security scan failed");
       console.error(
-        chalk.red(`Security scan failed: ${(error as Error).message}`)
+        chalk.red(`Security scan failed: ${(error as Error).message}`),
       );
     }
   }
