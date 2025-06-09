@@ -354,7 +354,7 @@ export class LanguageDetector {
       }
     }
 
-    // Find the language with highest score
+    // Find the language with the highest score
     let maxScore = 0;
     let detectedLanguage: SupportedLanguage | null = null;
 
@@ -518,7 +518,7 @@ export class LanguageDetector {
       };
 
       await scanDirectory(projectPath);
-    } catch (error) {
+    } catch {
       // Handle error
     }
 

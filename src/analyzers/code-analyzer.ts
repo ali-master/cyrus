@@ -214,15 +214,13 @@ export class CodeAnalyzer {
 
   private getPythonDiagnostics(
     content: string,
-    filePath: string,
+    _filePath: string,
   ): CodeDiagnostic[] {
     const diagnostics: CodeDiagnostic[] = [];
 
     try {
       // Basic Python syntax checking
       const lines = content.split("\n");
-      const indentLevel = 0;
-      const expectedIndent = 0;
 
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
@@ -270,7 +268,7 @@ export class CodeAnalyzer {
 
   private getJavaDiagnostics(
     content: string,
-    filePath: string,
+    _filePath: string,
   ): CodeDiagnostic[] {
     const diagnostics: CodeDiagnostic[] = [];
 
@@ -320,7 +318,7 @@ export class CodeAnalyzer {
 
   private getGenericDiagnostics(
     content: string,
-    language: SupportedLanguage,
+    _language: SupportedLanguage,
   ): CodeDiagnostic[] {
     const diagnostics: CodeDiagnostic[] = [];
 

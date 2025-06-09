@@ -139,7 +139,7 @@ export class MentorCommand {
   private async runBasicMentoring(
     code: string,
     language: string,
-    filePath: string,
+    _filePath: string,
   ): Promise<void> {
     const spinner = ora("🤖 Analyzing code and preparing mentoring...").start();
 
@@ -169,7 +169,7 @@ export class MentorCommand {
   private async runInteractiveMentoring(
     code: string,
     language: string,
-    filePath: string,
+    _filePath: string,
   ): Promise<void> {
     console.log(
       chalk.yellow("🔄 Interactive Mentoring Mode - Ask questions anytime!\n"),
@@ -320,20 +320,6 @@ export class MentorCommand {
     const spinner = ora("Thinking about your question...").start();
 
     try {
-      // Create a focused prompt for the specific question
-      const prompt = `
-User Level: ${this.mentorContext.userLevel}
-Focus Areas: ${this.mentorContext.focusAreas.join(", ")}
-Question: ${question}
-
-Code:
-\`\`\`${language}
-${code}
-\`\`\`
-
-Please provide a detailed, educational answer appropriate for a ${this.mentorContext.userLevel} developer.
-      `;
-
       // This would be a more specific AI call, but using existing method for now
       const answer = await this.aiService.provideMentoring(
         `Question: ${question}\n\n${code}`,
@@ -518,8 +504,8 @@ Please provide a detailed, educational answer appropriate for a ${this.mentorCon
   }
 
   private async provideFocusedInsights(
-    code: string,
-    language: string,
+    _code: string,
+    _language: string,
   ): Promise<void> {
     if (this.mentorContext.focusAreas.length === 0) return;
 
@@ -527,7 +513,7 @@ Please provide a detailed, educational answer appropriate for a ${this.mentorCon
     console.log(chalk.gray("─".repeat(30)));
 
     for (const area of this.mentorContext.focusAreas) {
-      const insight = this.getFocusAreaInsight(area, language);
+      const insight = this.getFocusAreaInsight(area);
       console.log(chalk.yellow(`\n${insight.title}:`));
       console.log(chalk.white(insight.content));
     }
@@ -535,7 +521,6 @@ Please provide a detailed, educational answer appropriate for a ${this.mentorCon
 
   private getFocusAreaInsight(
     area: string,
-    language: string,
   ): { title: string; content: string } {
     const insights = {
       quality: {
@@ -584,7 +569,7 @@ Please provide a detailed, educational answer appropriate for a ${this.mentorCon
     );
   }
 
-  private suggestNextSteps(language: string): void {
+  private suggestNextSteps(_language: string): void {
     console.log(chalk.cyan("\n🚀 Suggested Next Steps:"));
     console.log(chalk.gray("─".repeat(25)));
 
