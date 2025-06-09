@@ -13,6 +13,7 @@ import {
   AnalysisError,
 } from "../utils/error-handler";
 import type { CodeDiagnostic, AnalysisResult } from "../types";
+import { renderMarkdown } from "../utils/render-markdown";
 
 export class AnalyzeCommand {
   private codeAnalyzer: CodeAnalyzer;
@@ -144,11 +145,12 @@ export class AnalyzeCommand {
     }
 
     // AI analysis
-    console.log(chalk.cyan("\n🤖 AI Analysis:"));
     if (config?.outputFormat === "json") {
+      console.log(chalk.cyan("\n🤖 AI Analysis:"));
       console.log(JSON.stringify({ aiAnalysis }, null, 2));
     } else {
-      console.log(chalk.white(aiAnalysis));
+      const markdownContent = `\n## 🤖 AI Analysis\n\n${aiAnalysis}`;
+      console.log(await renderMarkdown(markdownContent));
     }
   }
 

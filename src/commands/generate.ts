@@ -7,6 +7,7 @@ import { AIService } from "../services/ai-service";
 import { LanguageDetector } from "../analyzers/language-detector";
 import { ConfigManager } from "../config/config";
 import type { SupportedLanguage, GeneratedCode } from "../types";
+import { renderMarkdown } from "../utils/render-markdown";
 
 export class GenerateCommand {
   private aiService: AIService;
@@ -88,7 +89,7 @@ export class GenerateCommand {
 
       console.log(chalk.cyan("\n🧪 Generated Unit Tests:\n"));
       console.log(chalk.gray("─".repeat(60)));
-      console.log(chalk.white(testCode.content));
+      console.log(await renderMarkdown(testCode.content));
 
       // Offer to save tests to file
       if (!options.dryRun) {
@@ -96,7 +97,7 @@ export class GenerateCommand {
       }
 
       console.log(chalk.cyan("\n💡 Test Explanation:"));
-      console.log(chalk.white(testCode.explanation));
+      console.log(await renderMarkdown(testCode.explanation));
     } catch (error) {
       spinner.fail("Test generation failed");
       throw error;
@@ -131,7 +132,7 @@ export class GenerateCommand {
 
       console.log(chalk.cyan("\n📚 Generated Documentation:\n"));
       console.log(chalk.gray("─".repeat(60)));
-      console.log(chalk.white(docs.content));
+      console.log(await renderMarkdown(docs.content));
 
       // Offer to save documentation
       if (!options.dryRun) {
@@ -235,7 +236,7 @@ export class GenerateCommand {
 
       console.log(chalk.cyan("\n🏗️ Generated Project Structure:\n"));
       console.log(chalk.gray("─".repeat(60)));
-      console.log(chalk.white(projectCode.content));
+      console.log(await renderMarkdown(projectCode.content));
 
       if (!options.dryRun) {
         await this.offerToCreateProject(description, projectCode);
@@ -299,7 +300,7 @@ export class GenerateCommand {
 
       console.log(chalk.cyan(`\n🧩 Generated ${name} Component:\n`));
       console.log(chalk.gray("─".repeat(60)));
-      console.log(chalk.white(component.content));
+      console.log(await renderMarkdown(component.content));
 
       if (!options.dryRun) {
         await this.offerToSaveComponent(name, component, answers.language);
@@ -353,7 +354,7 @@ export class GenerateCommand {
         chalk.cyan(`\n⚙️ Generated ${selectedType} Configuration:\n`),
       );
       console.log(chalk.gray("─".repeat(60)));
-      console.log(chalk.white(config.content));
+      console.log(await renderMarkdown(config.content));
 
       if (!options.dryRun) {
         await this.offerToSaveConfig(selectedType, config);

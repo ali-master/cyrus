@@ -6,6 +6,7 @@ import { AIService } from "../services/ai-service";
 import { LanguageDetector } from "../analyzers/language-detector";
 import { ConfigManager } from "../config/config";
 import type { MentorContext } from "../types";
+import { renderMarkdown } from "../utils/render-markdown";
 
 export class MentorCommand {
   private aiService: AIService;
@@ -153,7 +154,7 @@ export class MentorCommand {
       spinner.succeed("Mentoring analysis completed");
 
       console.log(chalk.cyan("\n🎓 Code Mentoring:\n"));
-      console.log(chalk.white(mentoring));
+      console.log(await renderMarkdown(mentoring));
 
       // Provide additional insights based on focus areas
       await this.provideFocusedInsights(code, language);
@@ -243,7 +244,7 @@ export class MentorCommand {
       );
       spinner.succeed("Code explanation ready");
       console.log(chalk.cyan("\n📖 Code Explanation:\n"));
-      console.log(chalk.white(explanation));
+      console.log(await renderMarkdown(explanation));
     } catch (error) {
       spinner.fail("Failed to explain code");
       console.error(chalk.red("Error:"), error);
@@ -299,7 +300,7 @@ export class MentorCommand {
       );
       console.log(chalk.gray(focusedCode));
       console.log(chalk.cyan("\nExplanation:\n"));
-      console.log(chalk.white(explanation));
+      console.log(await renderMarkdown(explanation));
     } catch (error) {
       spinner.fail("Line analysis failed");
       console.error(chalk.red("Error:"), error);
@@ -330,7 +331,7 @@ export class MentorCommand {
       spinner.succeed("Question answered");
 
       console.log(chalk.cyan(`\n❓ Question: ${question}\n`));
-      console.log(chalk.white(answer));
+      console.log(await renderMarkdown(answer));
     } catch (error) {
       spinner.fail("Failed to answer question");
       console.error(chalk.red("Error:"), error);
@@ -407,7 +408,7 @@ export class MentorCommand {
       );
 
       console.log(chalk.cyan("Generated Tests:\n"));
-      console.log(chalk.white(testCode.content));
+      console.log(await renderMarkdown(testCode.content));
 
       console.log(chalk.cyan("\nTesting Best Practices:"));
       console.log(
@@ -488,7 +489,7 @@ export class MentorCommand {
       spinner.succeed("Performance analysis completed");
 
       console.log(chalk.cyan("\n⚡ Performance Review:\n"));
-      console.log(chalk.white(analysis));
+      console.log(await renderMarkdown(analysis));
 
       console.log(chalk.cyan("\nGeneral Performance Tips:"));
       console.log(chalk.white("• Avoid premature optimization"));
@@ -515,7 +516,7 @@ export class MentorCommand {
     for (const area of this.mentorContext.focusAreas) {
       const insight = this.getFocusAreaInsight(area);
       console.log(chalk.yellow(`\n${insight.title}:`));
-      console.log(chalk.white(insight.content));
+      console.log(await renderMarkdown(insight.content));
     }
   }
 

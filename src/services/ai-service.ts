@@ -129,7 +129,7 @@ ${code}
 \`\`\`
 
 Provide a detailed analysis with specific line references where applicable.
-Format your response as structured text without markdown.
+Format your response using markdown for better readability in terminal output.
     `;
 
     try {
