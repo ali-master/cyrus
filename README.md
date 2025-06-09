@@ -305,6 +305,107 @@ cyrus compare src/v1/ src/v2/ --json > comparison-report.json
 
 </details>
 
+<details>
+<summary><strong>🎓 Interactive Learning Assistant</strong></summary>
+
+- **Personalized Learning Paths**: AI-generated curricula tailored to your skill level and goals
+- **Interactive Tutorials**: Step-by-step guided learning with hands-on practice
+- **Coding Challenges**: Progressive difficulty challenges with instant AI feedback
+- **Skill Assessment**: Comprehensive evaluation of your programming abilities
+- **Progress Tracking**: Monitor your learning journey with detailed analytics
+- **Achievement System**: Gamified learning with badges and milestones
+- **Adaptive Difficulty**: AI automatically adjusts challenge difficulty based on performance
+
+```bash
+# Start interactive learning session
+cyrus learn
+
+# Take skill assessment
+cyrus learn --assessment
+
+# Start coding challenge
+cyrus learn --challenge medium
+
+# Begin personalized tutorial
+cyrus learn --tutorial
+
+# View learning progress
+cyrus learn --progress
+```
+
+**Sample Learning Session:**
+```bash
+🎓 Welcome to Cyrus Learning Assistant!
+══════════════════════════════════════════════════════════
+
+🚀 Let's create your learning profile!
+? What's your programming skill level? Intermediate - Have some experience
+? Which programming languages are you interested in? JavaScript, TypeScript, Python
+? What's your preferred learning style? Hands-on - Learn by doing and practicing
+? What topics interest you most? Algorithms & Data Structures, Web Development
+
+✅ Profile created successfully!
+
+? What would you like to do today?
+❯ 📚 Start Interactive Tutorial
+  🏆 Take Coding Challenge  
+  📊 Skill Assessment
+  🎯 Personalized Learning Path
+  📈 View Progress & Achievements
+
+📚 Starting Tutorial: JavaScript Functions and Closures
+────────────────────────────────────────────────────────
+
+## 🎯 Learning Objectives
+By the end of this tutorial, you'll understand:
+• Function declarations vs expressions
+• Scope and closures in JavaScript
+• Practical use cases for closures
+• Common closure patterns and pitfalls
+
+## 📖 Functions Fundamentals
+Functions are the building blocks of JavaScript...
+
+🤔 Ready for some practice?
+? Would you like to try some practice exercises? Yes
+
+🏋️ Practice Session
+────────────────────────────────────────────────────────
+
+📝 Exercise: Create a Counter Function
+Write a function that returns another function which increments a counter each time it's called.
+
+💡 Starting code:
+```javascript
+function createCounter() {
+    // Your code here
+}
+```
+
+🔍 Analyzing your solution...
+✅ Analysis complete!
+
+## ✨ Excellent Solution!
+
+### 🎯 Correctness Assessment
+Your solution correctly implements a closure-based counter! The inner function properly captures and modifies the outer variable.
+
+### 💪 Code Quality Feedback
+• Clean and readable implementation
+• Proper use of closure concepts
+• Good variable naming
+
+### 🚀 Learning Points
+• You've mastered the concept of closures
+• Your understanding of function scope is solid
+• Ready for more advanced closure patterns
+
+🏆 Achievement Unlocked: Closure Master!
+📈 Progress: Functions & Closures topic completed (8/10 points)
+```
+
+</details>
+
 ---
 
 ## 🚀 Quick Start
@@ -370,6 +471,7 @@ cyrus generate tests src/utils.js
 | `cyrus quality <target>` | Comprehensive quality scoring | `cyrus quality . --max-files 50` |
 | `cyrus health` | Codebase health analysis | `cyrus health --detailed --save` |
 | `cyrus compare <first> <second>` | AI-powered code comparison | `cyrus compare old.js new.js -d` |
+| `cyrus learn` | Interactive learning assistant | `cyrus learn --challenge medium` |
 | `cyrus config` | Configuration management | `cyrus config init` |
 
 ### Quick Commands
@@ -378,7 +480,7 @@ cyrus generate tests src/utils.js
 |---------|-------------|
 | `cyrus fix <file>` | Quick fix critical issues |
 | `cyrus review <file>` | Comprehensive code review |
-| `cyrus learn <file>` | Interactive learning mode |
+| `cyrus study <file>` | Study mode with detailed explanations |
 
 ### Global Options
 

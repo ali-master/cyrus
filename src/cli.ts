@@ -12,6 +12,7 @@ import { HealthCommand } from "./commands/health";
 import { DetectCommand } from "./commands/detect";
 import { QualityCommand } from "./commands/quality";
 import { CompareCommand } from "./commands/compare";
+import { LearnCommand } from "./commands/learn";
 import { ConfigManager } from "./config/config";
 
 // Handle process termination gracefully
@@ -216,6 +217,25 @@ program
     await compareCommand.handle(first, second, options);
   });
 
+// Learning Assistant command
+program
+  .command("learn")
+  .description(
+    "Interactive AI-powered learning assistant with tutorials and challenges",
+  )
+  .option("-a, --assessment", "Start with skill assessment")
+  .option(
+    "-c, --challenge [difficulty]",
+    "Start coding challenge (easy/medium/hard)",
+  )
+  .option("-t, --tutorial [topic]", "Start interactive tutorial")
+  .option("-p, --progress", "Show learning progress and achievements")
+  .action(async (options) => {
+    await checkConfig("learn");
+    const learnCommand = new LearnCommand();
+    await learnCommand.handle(options);
+  });
+
 // Quick commands for common tasks
 program
   .command("fix <file>")
@@ -242,10 +262,10 @@ program
   });
 
 program
-  .command("learn <file>")
-  .description("Learning mode: detailed mentoring with explanations")
+  .command("study <file>")
+  .description("Study mode: detailed mentoring with explanations")
   .action(async (file) => {
-    await checkConfig("learn");
+    await checkConfig("study");
     const mentorCommand = new MentorCommand();
     await mentorCommand.handle(file, { interactive: true });
   });
@@ -308,7 +328,10 @@ ${chalk.bold("Examples:")}
   
   ${chalk.dim("Learning and mentoring")}
   $ cyrus mentor src/complex.ts          ${chalk.dim("# Get personalized code mentoring")}
-  $ cyrus learn src/algorithm.js         ${chalk.dim("# Interactive learning session")}
+  $ cyrus study src/algorithm.js         ${chalk.dim("# Study mode with detailed explanations")}
+  $ cyrus learn                          ${chalk.dim("# Interactive learning assistant")}
+  $ cyrus learn --challenge medium       ${chalk.dim("# Start coding challenge")}
+  $ cyrus learn --tutorial               ${chalk.dim("# Interactive tutorial session")}
   
   ${chalk.dim("Code generation")}
   $ cyrus generate tests src/utils.js    ${chalk.dim("# Generate comprehensive unit tests")}
