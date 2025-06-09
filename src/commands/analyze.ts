@@ -26,12 +26,16 @@ export class AnalyzeCommand {
   }
 
   public async handle(filePath: string, options: any = {}): Promise<void> {
-    return await errorHandler.handleAsync(async () => {
+    try {
       // Validate configuration
       if (!(await this.configManager.hasValidConfig())) {
-        throw new ConfigurationError(
-          "No valid configuration found. Please run: cyrus config init",
+        errorHandler.handle(
+          new ConfigurationError(
+            "No valid configuration found. Please run: cyrus config init",
+          ),
+          "analyze-command"
         );
+        return;
       }
 
       // Validate file exists
@@ -44,10 +48,14 @@ export class AnalyzeCommand {
 
       // Check if file is supported
       if (!LanguageDetector.isSupported(filePath)) {
-        throw new AnalysisError(
-          `Unsupported file type: ${filePath}. Supported extensions: ${LanguageDetector.getSupportedExtensions().join(", ")}`,
-          filePath,
+        errorHandler.handle(
+          new AnalysisError(
+            `Unsupported file type: ${filePath}. Supported extensions: ${LanguageDetector.getSupportedExtensions().join(", ")}`,
+            filePath,
+          ),
+          "analyze-command"
         );
+        return;
       }
 
       const spinner = ora("Analyzing code...").start();
@@ -55,18 +63,24 @@ export class AnalyzeCommand {
       try {
         // Step 1: Static analysis
         spinner.text = "Running static analysis...";
+        console.log(chalk.gray("\nStarting static analysis..."));
         const analysisResult = await this.codeAnalyzer.analyzeFile(filePath);
+        console.log(chalk.gray("Static analysis completed."));
 
         // Step 2: AI-powered analysis
         spinner.text = "Running AI analysis...";
+        console.log(chalk.gray("Starting AI analysis..."));
         let code: string;
         try {
           code = fs.readFileSync(filePath, "utf-8");
         } catch (error) {
+          spinner.fail("Failed to read file");
           handleFileError(error as Error, filePath);
           return;
         }
+        console.log(chalk.gray("Calling AI service..."));
         const aiAnalysis = await this.aiService.analyzeCode(code, filePath);
+        console.log(chalk.gray("AI analysis completed."));
 
         spinner.succeed("Analysis completed");
 
@@ -87,12 +101,20 @@ export class AnalyzeCommand {
         }
       } catch (error) {
         spinner.fail("Analysis failed");
-        throw new AnalysisError(
-          `Analysis failed: ${(error as Error).message}`,
-          filePath,
+        errorHandler.handle(
+          new AnalysisError(
+            `Analysis failed: ${(error as Error).message}`,
+            filePath,
+          ),
+          "analyze-command"
         );
       }
-    }, "analyze-command");
+    } catch (error) {
+      // Handle error and ensure process doesn't exit immediately
+      errorHandler.handle(error as Error, "analyze-command");
+      // Give time for error output to be displayed
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
   }
 
   private async displayResults(
@@ -230,10 +252,8 @@ export class AnalyzeCommand {
         );
         console.log(chalk.white(explanation));
       } catch (error) {
-        throw new AnalysisError(
-          `Failed to explain error: ${(error as Error).message}`,
-          undefined,
-          { diagnostic: diagnostic.message },
+        console.error(
+          chalk.red(`Failed to explain error: ${(error as Error).message}`)
         );
       }
     }
@@ -295,9 +315,8 @@ export class AnalyzeCommand {
       }
     } catch (error) {
       spinner.fail("Security scan failed");
-      throw new AnalysisError(
-        `Security scan failed: ${(error as Error).message}`,
-        filePath,
+      console.error(
+        chalk.red(`Security scan failed: ${(error as Error).message}`)
       );
     }
   }

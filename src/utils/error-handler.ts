@@ -65,9 +65,9 @@ export interface ErrorHandlerOptions {
 export class ErrorHandler {
   private static instance: ErrorHandler;
   private options: ErrorHandlerOptions = {
-    showStackTrace: false,
+    showStackTrace: process.env.NODE_ENV === 'development',
     logToFile: true,
-    exitOnError: true,
+    exitOnError: process.env.NODE_ENV !== 'development',
     showHelp: false,
   };
 

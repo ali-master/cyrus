@@ -12,6 +12,16 @@ import { HealthCommand } from "./commands/health";
 import { DetectCommand } from "./commands/detect";
 import { ConfigManager } from "./config/config";
 
+// Handle process termination gracefully
+process.on('SIGINT', () => {
+  console.log(chalk.yellow('\n\nOperation cancelled by user'));
+  process.exit(0);
+});
+
+process.on('SIGTERM', () => {
+  process.exit(0);
+});
+
 const program = new Command();
 
 // Display banner only if not in quiet mode
@@ -284,4 +294,12 @@ ${chalk.dim("For more information:")} ${chalk.underline("https://github.com/ali-
 );
 
 // Parse command line arguments
-program.parse();
+program.parseAsync(process.argv).then(() => {
+  // If no command was provided, show help
+  if (!process.argv.slice(2).length) {
+    program.outputHelp();
+  }
+}).catch((error) => {
+  console.error(chalk.red('Error:', error.message));
+  process.exit(1);
+});

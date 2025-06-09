@@ -1,5 +1,5 @@
 {
-  "$schema": "https://cyrus.usestrict.dev/schema.json",
+  "$schema": "https://raw.githubusercontent.com/ali-master/cyrus/refs/heads/master/schema/cyrus-config.schema.json",
   "aiProvider": {
     "name": "openai",
     "model": "gpt-4-turbo-preview",
