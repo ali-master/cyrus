@@ -1,0 +1,23 @@
+{
+  "$schema": "https://cyrus.usestrict.dev/schema.json",
+  "aiProvider": {
+    "name": "openai",
+    "model": "gpt-4-turbo-preview",
+    "apiKey": "your-api-key-here",
+    "temperature": 0.7,
+    "maxTokens": 4096
+  },
+  "features": {
+    "securityScan": true,
+    "performanceAnalysis": true,
+    "codeGeneration": true,
+    "refactorSuggestions": true,
+    "mentorMode": true
+  },
+  "languages": ["javascript", "typescript", "python", "java", "go", "rust"],
+  "outputFormat": "text",
+  "detectLanguage": {
+    "enabled": true,
+    "confidence": 0.7
+  }
+}

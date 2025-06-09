@@ -1,0 +1,158 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!--Advanced Gradients-->
+    <radialGradient id="coreGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:1"/>
+      <stop offset="30%" style="stop-color:#6366f1;stop-opacity:1"/>
+      <stop offset="70%" style="stop-color:#8b5cf6;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#d946ef;stop-opacity:1"/>
+    </radialGradient>
+    <linearGradient id="shieldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1"/>
+      <stop offset="50%" style="stop-color:#06b6d4;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="scanGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#22d3ee;stop-opacity:0"/>
+      <stop offset="50%" style="stop-color:#22d3ee;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:0"/>
+    </linearGradient>
+    <linearGradient id="neuralGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1"/>
+    </linearGradient>
+    <!--Advanced Filters-->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="innerGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feFlood flood-color="#ffffff" flood-opacity="0.3"/>
+      <feComposite in2="coloredBlur" operator="in"/>
+      <feComposite in2="SourceGraphic" operator="over"/>
+    </filter>
+    <filter id="dropShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+    <!--AI Circuit Pattern-->
+    <pattern id="circuitPattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <rect width="20" height="20" fill="none"/>
+      <path d="M2 2 L18 2 L18 18 L2 18 Z" stroke="url(#neuralGradient)" stroke-width="0.5" opacity="0.3" fill="none"/>
+      <circle cx="10" cy="10" r="1.5" fill="url(#neuralGradient)" opacity="0.4"/>
+      <path d="M10 2 L10 8 M10 12 L10 18 M2 10 L8 10 M12 10 L18 10" stroke="url(#neuralGradient)" stroke-width="0.3" opacity="0.6"/>
+    </pattern>
+  </defs>
+  <!--Background Circle with Circuit Pattern-->
+  <circle cx="128" cy="128" r="120" fill="url(#coreGradient)" filter="url(#glow)"/>
+  <circle cx="128" cy="128" r="115" fill="url(#circuitPattern)" opacity="0.6"/>
+  <!--Security Shield Frame-->
+  <g transform="translate(128, 128)">
+    <!--Main Shield Body-->
+    <path d="M0 -90
+             C-25 -90 -45 -75 -55 -50
+             L-60 0
+             C-60 35 -45 65 -20 80
+             L0 90
+             L20 80
+             C45 65 60 35 60 0
+             L55 -50
+             C45 -75 25 -90 0 -90 Z" fill="url(#shieldGradient)" stroke="rgba(255,255,255,0.2)" stroke-width="2" filter="url(#dropShadow)"/>
+    <!--Shield Inner Glow-->
+    <path d="M0 -85
+             C-22 -85 -40 -72 -50 -48
+             L-55 0
+             C-55 32 -42 60 -18 74
+             L0 82
+             L18 74
+             C42 60 55 32 55 0
+             L50 -48
+             C40 -72 22 -85 0 -85 Z" fill="none" stroke="url(#scanGradient)" stroke-width="1" opacity="0.8"/>
+  </g>
+  <!--Central AI Eye-->
+  <g transform="translate(128, 128)">
+    <!--Outer Eye Ring-->
+    <circle cx="0" cy="0" r="35" fill="none" stroke="url(#shieldGradient)" stroke-width="3" opacity="0.8"/>
+    <!--Eye Iris-->
+    <circle cx="0" cy="0" r="28" fill="url(#coreGradient)" filter="url(#innerGlow)"/>
+    <!--AI Neural Iris Pattern-->
+    <g opacity="0.9">
+      <circle cx="0" cy="0" r="20" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+      <circle cx="0" cy="0" r="15" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.5"/>
+      <circle cx="0" cy="0" r="10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+      <!--Neural Connection Lines-->
+      <g stroke="rgba(255,255,255,0.4)" stroke-width="0.8">
+        <line x1="-14" y1="-14" x2="14" y2="14"/>
+        <line x1="14" y1="-14" x2="-14" y2="14"/>
+        <line x1="0" y1="-20" x2="0" y2="20"/>
+        <line x1="-20" y1="0" x2="20" y2="0"/>
+      </g>
+    </g>
+    <!--Central Pupil/Core-->
+    <circle cx="0" cy="0" r="8" fill="#000000" opacity="0.8"/>
+    <circle cx="0" cy="0" r="6" fill="url(#neuralGradient)" filter="url(#glow)"/>
+    <circle cx="0" cy="0" r="3" fill="#ffffff" opacity="0.9"/>
+  </g>
+  <!--Scanner Beams-->
+  <g transform="translate(128, 128)" opacity="0.7">
+    <!--Horizontal Scan Lines-->
+    <line x1="-80" y1="-20" x2="80" y2="-20" stroke="url(#scanGradient)" stroke-width="2" filter="url(#glow)"/>
+    <line x1="-80" y1="0" x2="80" y2="0" stroke="url(#scanGradient)" stroke-width="3" filter="url(#glow)"/>
+    <line x1="-80" y1="20" x2="80" y2="20" stroke="url(#scanGradient)" stroke-width="2" filter="url(#glow)"/>
+    <!--Vertical Scan Lines-->
+    <line x1="-20" y1="-80" x2="-20" y2="80" stroke="url(#scanGradient)" stroke-width="2" filter="url(#glow)"/>
+    <line x1="0" y1="-80" x2="0" y2="80" stroke="url(#scanGradient)" stroke-width="3" filter="url(#glow)"/>
+    <line x1="20" y1="-80" x2="20" y2="80" stroke="url(#scanGradient)" stroke-width="2" filter="url(#glow)"/>
+  </g>
+  <!--Code Analysis Symbols-->
+  <g transform="translate(128, 128)" fill="rgba(255,255,255,0.8)" font-family="SF Mono, Monaco, monospace" font-size="12" font-weight="600">
+    <!--Security Brackets-->
+    <text x="-45" y="-45" fill="url(#shieldGradient)" filter="url(#glow)">[</text>
+    <text x="40" y="-45" fill="url(#shieldGradient)" filter="url(#glow)">]</text>
+    <text x="-45" y="55" fill="url(#shieldGradient)" filter="url(#glow)">[</text>
+    <text x="40" y="55" fill="url(#shieldGradient)" filter="url(#glow)">]</text>
+    <!--Code Symbols-->
+    <text x="-70" y="0" fill="url(#neuralGradient)" opacity="0.8" font-size="10">&lt;/&gt;</text>
+    <text x="60" y="0" fill="url(#neuralGradient)" opacity="0.8" font-size="10">{}</text>
+  </g>
+  <!--Neural Network Nodes-->
+  <g opacity="0.6">
+    <!--Outer Nodes-->
+    <circle cx="60" cy="80" r="4" fill="url(#neuralGradient)" filter="url(#glow)"/>
+    <circle cx="196" cy="80" r="4" fill="url(#neuralGradient)" filter="url(#glow)"/>
+    <circle cx="60" cy="176" r="4" fill="url(#neuralGradient)" filter="url(#glow)"/>
+    <circle cx="196" cy="176" r="4" fill="url(#neuralGradient)" filter="url(#glow)"/>
+    <!--Connection Lines to Center-->
+    <g stroke="url(#neuralGradient)" stroke-width="1.5" opacity="0.4">
+      <line x1="60" y1="80" x2="128" y2="128"/>
+      <line x1="196" y1="80" x2="128" y2="128"/>
+      <line x1="60" y1="176" x2="128" y2="128"/>
+      <line x1="196" y1="176" x2="128" y2="128"/>
+    </g>
+  </g>
+  <!--Outer Orbital Ring-->
+  <circle cx="128" cy="128" r="110" fill="none" stroke="url(#shieldGradient)" stroke-width="1.5" opacity="0.5" stroke-dasharray="5,5"/>
+  <!--Security Lock Indicators-->
+  <g transform="translate(128, 45)" fill="url(#shieldGradient)" opacity="0.8">
+    <rect x="-4" y="0" width="8" height="8" rx="1"/>
+    <path d="M-2 0 C-2 -3 0 -5 2 -5 C4 -5 6 -3 6 0" stroke="url(#shieldGradient)" stroke-width="1.5" fill="none"/>
+  </g>
+  <g transform="translate(128, 211)" fill="url(#shieldGradient)" opacity="0.8">
+    <rect x="-4" y="0" width="8" height="8" rx="1"/>
+    <path d="M-2 0 C-2 -3 0 -5 2 -5 C4 -5 6 -3 6 0" stroke="url(#shieldGradient)" stroke-width="1.5" fill="none"/>
+  </g>
+  <!--Data Flow Particles-->
+  <g opacity="0.4">
+    <circle cx="40" cy="128" r="2" fill="url(#scanGradient)">
+      <animate attributeName="cx" values="40;216;40" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="128" cy="40" r="2" fill="url(#scanGradient)">
+      <animate attributeName="cy" values="40;216;40" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;1;0" dur="4s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

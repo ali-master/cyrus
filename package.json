@@ -1,0 +1,113 @@
+{
+  "name": "@usex/cyrus",
+  "version": "0.0.0",
+  "description": "The Code Empire Analyzer. AI-Powered Debugging & Analysis CLI for Modern Developers",
+  "type": "module",
+  "module": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "cyrus": "./dist/cli.js"
+  },
+  "sideEffects": false,
+  "keywords": [
+    "cyrus",
+    "ai",
+    "cli",
+    "openai",
+    "claude",
+    "gemini",
+    "grok"
+  ],
+  "author": {
+    "name": "Ali Torki",
+    "url": "https://github.com/ali-master",
+    "email": "ali_4286@live.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ali-master/cyrus.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ali-master/cyrus/issues"
+  },
+  "homepage": "https://github.com/ali-master/cyrus#readme",
+  "logo": "https://raw.githubusercontent.com/ali-master/cyrus/master/assets/logo.svg",
+  "engines": {
+    "node": ">=18.0.0",
+    "bun": ">=1.0.0",
+    "npm": ">=8.0.0"
+  },
+  "scripts": {
+    "prebuild": "bunx rimraf dist",
+    "build": "bun run build:main && bun run build:cli && bun run build:dts",
+    "build:dts": "tsc --emitDeclarationOnly --declaration --noEmit false --outDir dist --project ./tsconfig.json",
+    "build:main": "bun build src/index.ts --outdir dist --target node --format esm --minify",
+    "build:cli": "bun build src/cli.ts --outdir dist --target node --format esm --minify",
+    "postbuild": "chmod +x dist/cli.js",
+    "start:dev": "bun --bun run src/index.ts",
+    "start:cli:dev": "bun --bun run src/cli.ts",
+    "prepublish:next": "bun run build",
+    "publish:next": "bun publish --access public --tag next",
+    "prepublish:npm": "bun run build",
+    "publish:npm": "bun publish --access public",
+    "prerelease": "bun run build",
+    "release": "release-it",
+    "test:types": "tsc --noEmit",
+    "format": "prettier --write \"**/*.ts\"",
+    "lint": "eslint \"src/**/*.ts\"",
+    "lint:fix": "eslint \"src/**/*.ts\" --fix",
+    "preinstall": "bunx only-allow bun"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.14.1",
+    "@types/bun": "latest",
+    "@types/inquirer": "^9.0.8",
+    "@types/figlet": "^1.7.0",
+    "eslint": "^9.28.0",
+    "eslint-plugin-format": "^1.0.1",
+    "prettier": "^3.5.3",
+    "release-it": "^19.0.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^1.2.12",
+    "@ai-sdk/google": "^1.2.19",
+    "@ai-sdk/openai": "^1.3.22",
+    "@ai-sdk/xai": "^1.2.16",
+    "ai": "^4.3.16",
+    "chalk": "^5.4.1",
+    "commander": "^14.0.0",
+    "cosmiconfig": "^9.0.0",
+    "cosmiconfig-typescript-loader": "^6.1.0",
+    "dotenv": "^16.5.0",
+    "figlet": "^1.8.1",
+    "glob": "^11.0.2",
+    "gradient-string": "^3.0.0",
+    "inquirer": "^12.6.3",
+    "ora": "^8.2.0",
+    "typescript": "^5.8.3"
+  },
+  "packageManager": "bun@1.2.15",
+  "changelog": {
+    "labels": {
+      "feature": "Features",
+      "bug": "Bug fixes",
+      "enhancement": "Enhancements",
+      "docs": "Docs",
+      "dependencies": "Dependencies",
+      "type: code style": "Code style tweaks",
+      "status: blocked": "Breaking changes",
+      "breaking change": "Breaking changes"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
