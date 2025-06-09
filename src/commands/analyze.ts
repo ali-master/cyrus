@@ -158,7 +158,8 @@ export class AnalyzeCommand {
       console.log(chalk.cyan("\n🤖 AI Analysis:"));
       console.log(JSON.stringify({ aiAnalysis }, null, 2));
     } else {
-      const markdownContent = `\n\n## 🤖 AI Analysis\n\n${aiAnalysis}`;
+      // Render AI analysis with Markdown formatting
+      const markdownContent = `## 🤖 AI Analysis\n\n${aiAnalysis}`;
       console.log(await renderMarkdown(markdownContent));
     }
   }
