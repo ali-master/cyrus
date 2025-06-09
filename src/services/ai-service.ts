@@ -87,20 +87,26 @@ export class AIService {
 
   public async analyzeCode(code: string, filePath: string): Promise<string> {
     await this.ensureConfig();
-    
+
     // Check if the AI service is available for local providers
     if (["ollama", "lmstudio", "local"].includes(this.config.aiProvider.name)) {
       try {
         const testUrl = `${this.config.aiProvider.baseURL}/v1/models`;
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 3000); // 3 second test
-        
+
         await fetch(testUrl, { signal: controller.signal });
         clearTimeout(timeout);
       } catch {
-        console.log(chalk.yellow(`\n⚠️  AI service not available at ${this.config.aiProvider.baseURL}`));
-        console.log(chalk.gray("Returning mock analysis for demonstration purposes\n"));
-        
+        console.log(
+          chalk.yellow(
+            `\n⚠️  AI service not available at ${this.config.aiProvider.baseURL}`,
+          ),
+        );
+        console.log(
+          chalk.gray("Returning mock analysis for demonstration purposes\n"),
+        );
+
         // Return a mock analysis
         return `Code Analysis for ${filePath}:
 
@@ -113,7 +119,7 @@ export class AIService {
 Note: This is a mock analysis. Please ensure your AI service is running at ${this.config.aiProvider.baseURL}`;
       }
     }
-    
+
     const prompt = `
 You are an expert code analyst. Analyze the following code for:
 1. Logic errors and potential bugs
@@ -135,7 +141,7 @@ Format your response using markdown for better readability in terminal output.
     try {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 30000); // 30 second timeout
-      
+
       const { text } = await generateText({
         model: this.getProvider(),
         prompt,
@@ -147,8 +153,10 @@ Format your response using markdown for better readability in terminal output.
       clearTimeout(timeout);
       return text;
     } catch (error) {
-      if ((error as any).name === 'AbortError') {
-        throw new Error('AI service request timed out after 30 seconds. Please check your AI provider configuration.');
+      if ((error as any).name === "AbortError") {
+        throw new Error(
+          "AI service request timed out after 30 seconds. Please check your AI provider configuration.",
+        );
       }
       handleAIError(error as Error, this.config.aiProvider.name);
       throw error; // Re-throw to maintain the calling pattern

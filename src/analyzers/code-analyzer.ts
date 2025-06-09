@@ -159,7 +159,8 @@ export class CodeAnalyzer {
         // Check for console.log statements
         if (trimmed.includes("console.log")) {
           diagnostics.push({
-            message: "console.log statement found - consider using proper logging",
+            message:
+              "console.log statement found - consider using proper logging",
             line: i + 1,
             column: line.indexOf("console.log") + 1,
             severity: "warning",
@@ -511,7 +512,7 @@ export class CodeAnalyzer {
       getCurrentDirectory: () => "",
       getNewLine: () => "\n",
       fileExists: (fileName) => fileName === filePath,
-      readFile: (fileName) => fileName === filePath ? content : undefined,
+      readFile: (fileName) => (fileName === filePath ? content : undefined),
       directoryExists: () => true,
       getDirectories: () => [],
     };

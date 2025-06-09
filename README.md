@@ -175,6 +175,54 @@ cyrus health --parallel --output health-report.json
 
 </details>
 
+<details>
+<summary><strong>🎯 Code Quality Scoring</strong></summary>
+
+- **Comprehensive Quality Score**: Overall grade (A+ to F) based on multiple factors
+- **Weighted Metrics**: Code health, maintainability, complexity, test coverage, documentation, security
+- **AI-Powered Recommendations**: Specific, actionable improvement suggestions
+- **File-Level Analysis**: Identify files needing the most attention
+- **Progress Tracking**: Monitor quality improvements over time
+
+```bash
+# Calculate quality score for entire project
+cyrus quality .
+
+# Quality score for specific file
+cyrus quality src/components/UserAuth.tsx
+
+# Analyze with custom limits
+cyrus quality . --max-files 100
+
+# Export quality report
+cyrus quality . --json > quality-report.json
+```
+
+**Sample Output:**
+```bash
+🎯 Code Quality Report
+═══════════════════════════════════════════════════════════
+
+Overall Quality Score: 87/100 (A)
+████████████████████░
+
+📊 Detailed Metrics:
+  Code Health      92/100 ██████████
+  Maintainability  85/100 ████████▌░
+  Complexity       78/100 ███████▌░░
+  Test Coverage    95/100 █████████▌
+  Documentation    72/100 ███████▍░░
+  Security         94/100 █████████▍
+
+🚀 Improvement Recommendations:
+• Reduce complexity in high-complexity functions (complexity.js:45-67)
+• Add inline documentation for public APIs
+• Consider extracting utility functions for better maintainability
+• Review security practices in authentication modules
+```
+
+</details>
+
 ---
 
 ## 🚀 Quick Start
@@ -237,6 +285,7 @@ cyrus generate tests src/utils.js
 | `cyrus analyze <file>` | Code analysis & debugging | `cyrus analyze src/app.js --security` |
 | `cyrus mentor <file>` | AI-powered code mentoring | `cyrus mentor src/algo.py --interactive` |
 | `cyrus generate <type>` | Code generation utilities | `cyrus generate tests src/utils.js` |
+| `cyrus quality <target>` | Comprehensive quality scoring | `cyrus quality . --max-files 50` |
 | `cyrus health` | Codebase health analysis | `cyrus health --detailed --save` |
 | `cyrus config` | Configuration management | `cyrus config init` |
 

@@ -10,15 +10,16 @@ import { MentorCommand } from "./commands/mentor";
 import { GenerateCommand } from "./commands/generate";
 import { HealthCommand } from "./commands/health";
 import { DetectCommand } from "./commands/detect";
+import { QualityCommand } from "./commands/quality";
 import { ConfigManager } from "./config/config";
 
 // Handle process termination gracefully
-process.on('SIGINT', () => {
-  console.log(chalk.yellow('\n\nOperation cancelled by user'));
+process.on("SIGINT", () => {
+  console.log(chalk.yellow("\n\nOperation cancelled by user"));
   process.exit(0);
 });
 
-process.on('SIGTERM', () => {
+process.on("SIGTERM", () => {
   process.exit(0);
 });
 
@@ -186,6 +187,20 @@ program
     await healthCommand.handle(options);
   });
 
+// Quality score command
+program
+  .command("quality <target>")
+  .description(
+    "Calculate comprehensive code quality score with AI-powered recommendations",
+  )
+  .option("--max-files <number>", "Maximum number of files to analyze", "50")
+  .option("--json", "Output results in JSON format")
+  .action(async (target, options) => {
+    await checkConfig("quality");
+    const qualityCommand = new QualityCommand();
+    await qualityCommand.handle(target, options);
+  });
+
 // Quick commands for common tasks
 program
   .command("fix <file>")
@@ -285,21 +300,26 @@ ${chalk.bold("Examples:")}
   $ cyrus generate docs src/api.py       ${chalk.dim("# Generate detailed documentation")}
   $ cyrus generate refactor src/old.js   ${chalk.dim("# Get refactoring suggestions")}
   
-  ${chalk.dim("Project health")}
+  ${chalk.dim("Project health and quality")}
   $ cyrus health                         ${chalk.dim("# Scan entire codebase health")}
   $ cyrus health --detailed              ${chalk.dim("# Detailed health report")}
+  $ cyrus quality .                      ${chalk.dim("# Calculate project quality score")}
+  $ cyrus quality src/app.ts             ${chalk.dim("# Quality score for specific file")}
 
 ${chalk.dim("For more information:")} ${chalk.underline("https://github.com/ali-master/cyrus")}
 `,
 );
 
 // Parse command line arguments
-program.parseAsync(process.argv).then(() => {
-  // If no command was provided, show help
-  if (!process.argv.slice(2).length) {
-    program.outputHelp();
-  }
-}).catch((error) => {
-  console.error(chalk.red('Error:', error.message));
-  process.exit(1);
-});
+program
+  .parseAsync(process.argv)
+  .then(() => {
+    // If no command was provided, show help
+    if (!process.argv.slice(2).length) {
+      program.outputHelp();
+    }
+  })
+  .catch((error) => {
+    console.error(chalk.red("Error:", error.message));
+    process.exit(1);
+  });
