@@ -80,7 +80,10 @@ export class GenerateCommand {
         return;
       }
 
-      const testCode = await this.aiService.generateTests(code, detection.language);
+      const testCode = await this.aiService.generateTests(
+        code,
+        detection.language,
+      );
       spinner.succeed("Tests generated successfully");
 
       console.log(chalk.cyan("\n🧪 Generated Unit Tests:\n"));
@@ -120,7 +123,10 @@ export class GenerateCommand {
         return;
       }
 
-      const docs = await this.aiService.generateDocumentation(code, detection.language);
+      const docs = await this.aiService.generateDocumentation(
+        code,
+        detection.language,
+      );
       spinner.succeed("Documentation generated successfully");
 
       console.log(chalk.cyan("\n📚 Generated Documentation:\n"));

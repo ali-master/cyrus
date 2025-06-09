@@ -46,7 +46,14 @@ export interface SecurityVulnerability {
   fix?: string;
 }
 
-export type AIProviderType = "openai" | "anthropic" | "google" | "xai" | "ollama" | "lmstudio" | "local";
+export type AIProviderType =
+  | "openai"
+  | "anthropic"
+  | "google"
+  | "xai"
+  | "ollama"
+  | "lmstudio"
+  | "local";
 
 export interface AIProvider {
   name: AIProviderType;

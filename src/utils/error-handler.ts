@@ -151,7 +151,7 @@ export class ErrorHandler {
     }
 
     if (this.options.showHelp) {
-      this.displayHelp(error);
+      this.displayHelp();
     }
 
     console.error(); // Empty line for spacing
@@ -266,7 +266,7 @@ export class ErrorHandler {
     return guidance;
   }
 
-  private displayHelp(error: Error): void {
+  private displayHelp(): void {
     console.error(chalk.cyan("\n📚 Need help?"));
     console.error(
       chalk.white(
@@ -334,6 +334,7 @@ export const validateRequired = (value: any, fieldName: string): void => {
 
 export const validateFileExists = (filePath: string): void => {
   try {
+    // eslint-disable-next-line ts/no-require-imports
     const fs = require("fs");
     if (!fs.existsSync(filePath)) {
       throw new FileSystemError(`File does not exist: ${filePath}`, filePath);

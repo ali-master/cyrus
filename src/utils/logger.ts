@@ -183,7 +183,7 @@ export class Logger {
   private logToFile(entry: LogEntry): void {
     try {
       const logFileName = this.getLogFileName();
-      const logLine = `${JSON.stringify(entry)  }\n`;
+      const logLine = `${JSON.stringify(entry)}\n`;
 
       fs.appendFileSync(logFileName, logLine, "utf-8");
 

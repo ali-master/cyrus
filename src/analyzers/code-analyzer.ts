@@ -23,7 +23,10 @@ export class CodeAnalyzer {
   public async analyzeFile(filePath: string): Promise<AnalysisResult> {
     try {
       const content = fs.readFileSync(filePath, "utf-8");
-      const detection = await LanguageDetector.detectLanguage(filePath, content);
+      const detection = await LanguageDetector.detectLanguage(
+        filePath,
+        content,
+      );
 
       if (!detection.language) {
         throw new Error(`Unsupported file type: ${filePath}`);
