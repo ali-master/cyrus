@@ -1,0 +1,245 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://cyrus.usestrict.dev/schema.json",
+  "title": "Cyrus Configuration",
+  "description": "Configuration schema for Cyrus AI code analysis tool",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema reference"
+    },
+    "aiProvider": {
+      "type": "object",
+      "description": "AI provider configuration",
+      "properties": {
+        "name": {
+          "type": "string",
+          "enum": ["openai", "anthropic", "google", "xai", "ollama", "lmstudio", "local"],
+          "description": "AI provider name"
+        },
+        "model": {
+          "type": "string",
+          "description": "Model name to use"
+        },
+        "apiKey": {
+          "type": "string",
+          "description": "API key for cloud providers (not required for local providers)"
+        },
+        "baseURL": {
+          "type": "string",
+          "description": "Base URL for API requests (required for local providers)"
+        },
+        "temperature": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2,
+          "description": "Sampling temperature for AI responses"
+        },
+        "maxTokens": {
+          "type": "number",
+          "minimum": 1,
+          "description": "Maximum number of tokens in AI responses"
+        }
+      },
+      "required": ["name", "model"],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "name": {
+                "enum": ["ollama", "lmstudio", "local"]
+              }
+            }
+          },
+          "then": {
+            "required": ["baseURL"]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "name": {
+                "enum": ["openai", "anthropic", "google", "xai"]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "apiKey": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "features": {
+      "type": "object",
+      "description": "Feature toggles for Cyrus functionality",
+      "properties": {
+        "securityScan": {
+          "type": "boolean",
+          "description": "Enable security vulnerability scanning"
+        },
+        "performanceAnalysis": {
+          "type": "boolean",
+          "description": "Enable performance analysis"
+        },
+        "codeGeneration": {
+          "type": "boolean",
+          "description": "Enable AI code generation"
+        },
+        "refactorSuggestions": {
+          "type": "boolean",
+          "description": "Enable refactoring suggestions"
+        },
+        "mentorMode": {
+          "type": "boolean",
+          "description": "Enable AI mentoring mode"
+        }
+      },
+      "additionalProperties": false
+    },
+    "languages": {
+      "type": "array",
+      "description": "Supported programming languages",
+      "items": {
+        "type": "string",
+        "enum": [
+          "javascript",
+          "typescript",
+          "python",
+          "java",
+          "go",
+          "rust",
+          "csharp",
+          "php",
+          "ruby",
+          "jsx",
+          "tsx"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "outputFormat": {
+      "type": "string",
+      "enum": ["text", "json", "markdown"],
+      "description": "Output format for analysis results"
+    },
+    "detectLanguage": {
+      "type": "object",
+      "description": "Language detection configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable automatic language detection"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Minimum confidence threshold for language detection"
+        }
+      },
+      "additionalProperties": false
+    },
+    "localModels": {
+      "type": "object",
+      "description": "Local AI model configurations",
+      "properties": {
+        "ollama": {
+          "type": "object",
+          "description": "Ollama configuration",
+          "properties": {
+            "models": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Available Ollama models"
+            },
+            "defaultModel": {
+              "type": "string",
+              "description": "Default Ollama model to use"
+            }
+          },
+          "required": ["models", "defaultModel"],
+          "additionalProperties": false
+        },
+        "lmstudio": {
+          "type": "object",
+          "description": "LM Studio configuration",
+          "properties": {
+            "models": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Available LM Studio models"
+            },
+            "defaultModel": {
+              "type": "string",
+              "description": "Default LM Studio model to use"
+            }
+          },
+          "required": ["models", "defaultModel"],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["aiProvider"],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "$schema": "https://cyrus.usestrict.dev/schema.json",
+      "aiProvider": {
+        "name": "openai",
+        "model": "gpt-4-turbo-preview",
+        "apiKey": "your-api-key-here",
+        "temperature": 0.7,
+        "maxTokens": 4096
+      },
+      "features": {
+        "securityScan": true,
+        "performanceAnalysis": true,
+        "codeGeneration": true,
+        "refactorSuggestions": true,
+        "mentorMode": true
+      },
+      "languages": ["javascript", "typescript", "python", "java", "go", "rust"],
+      "outputFormat": "text",
+      "detectLanguage": {
+        "enabled": true,
+        "confidence": 0.7
+      }
+    },
+    {
+      "$schema": "https://cyrus.usestrict.dev/schema.json",
+      "aiProvider": {
+        "name": "ollama",
+        "model": "llama3.2",
+        "baseURL": "http://localhost:11434"
+      },
+      "features": {
+        "securityScan": true,
+        "performanceAnalysis": true,
+        "codeGeneration": false,
+        "refactorSuggestions": true,
+        "mentorMode": false
+      },
+      "languages": ["javascript", "typescript", "python"],
+      "outputFormat": "markdown",
+      "localModels": {
+        "ollama": {
+          "models": ["llama3.2", "codellama", "mistral"],
+          "defaultModel": "llama3.2"
+        }
+      }
+    }
+  ]
+}

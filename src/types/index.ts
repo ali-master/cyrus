@@ -142,3 +142,10 @@ export interface ProjectHealth {
   };
   recommendations: string[];
 }
+
+// Export config types for JS/TS config files
+export type CyrusConfig = Config;
+export type CyrusAIProvider = AIProvider;
+export type CyrusAIProviderType = AIProviderType;
+export type CyrusLocalAIProvider = LocalAIProvider;
+export type CyrusSupportedLanguage = SupportedLanguage;
