@@ -28,3 +28,5 @@ jest.config.js
 coverage
 # docs
 docs
+
+.cyrusrc.json
