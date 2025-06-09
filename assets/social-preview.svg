@@ -2,41 +2,41 @@
   <defs>
     <!--Background gradient-->
     <linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#0f0f23;stop-opacity:1"/>
-      <stop offset="25%" style="stop-color:#1e1b4b;stop-opacity:1"/>
-      <stop offset="50%" style="stop-color:#312e81;stop-opacity:1"/>
-      <stop offset="75%" style="stop-color:#1e1b4b;stop-opacity:1"/>
-      <stop offset="100%" style="stop-color:#0f0f23;stop-opacity:1"/>
+      <stop offset="0%" style="stop-color:#344e41;stop-opacity:1"/>
+      <stop offset="25%" style="stop-color:#3a5a40;stop-opacity:1"/>
+      <stop offset="50%" style="stop-color:#588157;stop-opacity:1"/>
+      <stop offset="75%" style="stop-color:#3a5a40;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#344e41;stop-opacity:1"/>
     </linearGradient>
     <!--Core gradient for AI elements-->
     <radialGradient id="coreGradient" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:1"/>
-      <stop offset="30%" style="stop-color:#6366f1;stop-opacity:1"/>
-      <stop offset="70%" style="stop-color:#8b5cf6;stop-opacity:1"/>
-      <stop offset="100%" style="stop-color:#d946ef;stop-opacity:1"/>
+      <stop offset="0%" style="stop-color:#a3b18a;stop-opacity:1"/>
+      <stop offset="30%" style="stop-color:#588157;stop-opacity:1"/>
+      <stop offset="70%" style="stop-color:#3a5a40;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#344e41;stop-opacity:1"/>
     </radialGradient>
     <!--Shield gradient for security-->
     <linearGradient id="shieldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#10b981;stop-opacity:1"/>
-      <stop offset="50%" style="stop-color:#06b6d4;stop-opacity:1"/>
-      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1"/>
+      <stop offset="0%" style="stop-color:#588157;stop-opacity:1"/>
+      <stop offset="50%" style="stop-color:#3a5a40;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#344e41;stop-opacity:1"/>
     </linearGradient>
     <!--Scanner gradient-->
     <linearGradient id="scanGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#22d3ee;stop-opacity:0"/>
-      <stop offset="50%" style="stop-color:#22d3ee;stop-opacity:1"/>
-      <stop offset="100%" style="stop-color:#22d3ee;stop-opacity:0"/>
+      <stop offset="0%" style="stop-color:#dad7cd;stop-opacity:0"/>
+      <stop offset="50%" style="stop-color:#a3b18a;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#dad7cd;stop-opacity:0"/>
     </linearGradient>
     <!--Neural gradient-->
     <linearGradient id="neuralGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1"/>
-      <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1"/>
+      <stop offset="0%" style="stop-color:#a3b18a;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#588157;stop-opacity:1"/>
     </linearGradient>
     <!--Text gradient-->
     <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1"/>
-      <stop offset="50%" style="stop-color:#e0e7ff;stop-opacity:1"/>
-      <stop offset="100%" style="stop-color:#c7d2fe;stop-opacity:1"/>
+      <stop offset="0%" style="stop-color:#dad7cd;stop-opacity:1"/>
+      <stop offset="50%" style="stop-color:#a3b18a;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#588157;stop-opacity:1"/>
     </linearGradient>
     <!--Glow filters-->
     <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
