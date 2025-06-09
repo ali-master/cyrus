@@ -23,7 +23,7 @@ marked.use(
     reflowText: true,
     tab: 2,
     width: 80,
-    
+
     // Table styling
     tableOptions: {
       chars: {

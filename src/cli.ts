@@ -11,6 +11,7 @@ import { GenerateCommand } from "./commands/generate";
 import { HealthCommand } from "./commands/health";
 import { DetectCommand } from "./commands/detect";
 import { QualityCommand } from "./commands/quality";
+import { CompareCommand } from "./commands/compare";
 import { ConfigManager } from "./config/config";
 
 // Handle process termination gracefully
@@ -201,6 +202,20 @@ program
     await qualityCommand.handle(target, options);
   });
 
+// Compare command - Compare two code files or snippets
+program
+  .command("compare <first> <second>")
+  .description("Compare two code files or snippets with AI-powered analysis")
+  .option("-w, --words", "Show word-by-word diff instead of line-by-line")
+  .option("-d, --detailed", "Show detailed metrics comparison")
+  .option("-s, --security", "Include security comparison analysis")
+  .option("--json", "Output results in JSON format")
+  .action(async (first, second, options) => {
+    await checkConfig("compare");
+    const compareCommand = new CompareCommand();
+    await compareCommand.handle(first, second, options);
+  });
+
 // Quick commands for common tasks
 program
   .command("fix <file>")
@@ -299,6 +314,12 @@ ${chalk.bold("Examples:")}
   $ cyrus generate tests src/utils.js    ${chalk.dim("# Generate comprehensive unit tests")}
   $ cyrus generate docs src/api.py       ${chalk.dim("# Generate detailed documentation")}
   $ cyrus generate refactor src/old.js   ${chalk.dim("# Get refactoring suggestions")}
+  
+  ${chalk.dim("Code comparison")}
+  $ cyrus compare old.js new.js          ${chalk.dim("# Compare two code files")}
+  $ cyrus compare file1.py file2.py -d   ${chalk.dim("# Detailed comparison with metrics")}
+  $ cyrus compare v1.ts v2.ts --security ${chalk.dim("# Include security analysis")}
+  $ cyrus compare "old code" "new code"  ${chalk.dim("# Compare code snippets directly")}
   
   ${chalk.dim("Project health and quality")}
   $ cyrus health                         ${chalk.dim("# Scan entire codebase health")}

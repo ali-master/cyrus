@@ -223,6 +223,88 @@ Overall Quality Score: 87/100 (A)
 
 </details>
 
+<details>
+<summary><strong>🔄 Smart Code Comparison</strong></summary>
+
+- **Side-by-Side Comparison**: Visual diff with line-by-line and word-by-word modes
+- **AI-Powered Analysis**: Deep insights into similarities, differences, and improvements
+- **Security & Performance Impact**: Understand the implications of code changes
+- **Detailed Metrics**: Code size, complexity, and quality comparisons
+- **Flexible Input**: Compare files, code snippets, or even different versions
+
+```bash
+# Compare two code files
+cyrus compare old.js new.js
+
+# Word-by-word comparison
+cyrus compare file1.py file2.py --words
+
+# Detailed comparison with metrics
+cyrus compare v1.ts v2.ts --detailed
+
+# Include security analysis
+cyrus compare auth-old.js auth-new.js --security
+
+# Compare code snippets directly
+cyrus compare "function old() { return 1; }" "const new = () => 1;"
+
+# Export comparison report
+cyrus compare src/v1/ src/v2/ --json > comparison-report.json
+```
+
+**Sample Output:**
+```bash
+🔍 Code Comparison: old.js vs new.js
+═══════════════════════════════════════════════════════════
+
+📋 Line-by-line Comparison:
+────────────────────────────────────────────────────────────
+-   1 │ function calculateTotal(items) {
++   1 │ const calculateTotal = (items) => {
+    2 │   let total = 0;
+-   3 │   for (let i = 0; i < items.length; i++) {
+-   4 │     total += items[i].price;
++   3 │   return items.reduce((sum, item) => sum + item.price, 0);
+-   5 │   }
+-   6 │   return total;
+    7 │ }
+
+🤖 AI-Powered Comparison Analysis
+
+🔗 Key Similarities
+• Both functions calculate the total price of items
+• Same input parameter structure and expected output
+• Both handle array iteration for summation
+
+🔄 Key Differences  
+• Modern ES6 arrow function syntax vs traditional function declaration
+• Functional programming approach (reduce) vs imperative loop
+• More concise implementation reduces code by 60%
+• Better immutability practices in the new version
+
+🚀 Improvements & Recommendations
+• New version is more functional and concise
+• Arrow function with reduce is more expressive
+• Better performance with native reduce method
+• Consider adding TypeScript for better type safety
+
+🔒 Security Implications
+• No security implications identified in this change
+• Both versions handle input validation equally
+
+⚡ Performance Notes
+• New version likely faster due to native reduce optimization
+• Reduced memory allocation with functional approach
+• Less prone to off-by-one errors
+
+💡 Expert Recommendations
+• The new version represents a clear improvement
+• Consider adding input validation for both versions
+• Document the function purpose and expected input format
+```
+
+</details>
+
 ---
 
 ## 🚀 Quick Start
@@ -287,6 +369,7 @@ cyrus generate tests src/utils.js
 | `cyrus generate <type>` | Code generation utilities | `cyrus generate tests src/utils.js` |
 | `cyrus quality <target>` | Comprehensive quality scoring | `cyrus quality . --max-files 50` |
 | `cyrus health` | Codebase health analysis | `cyrus health --detailed --save` |
+| `cyrus compare <first> <second>` | AI-powered code comparison | `cyrus compare old.js new.js -d` |
 | `cyrus config` | Configuration management | `cyrus config init` |
 
 ### Quick Commands
