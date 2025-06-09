@@ -328,13 +328,13 @@ cyrus detect src/components/UserAuth.tsx --detailed
 <table>
   <tr>
     <td align="center">
-      <img src="https://cdn.brandfetch.io/idR3duQxYl/theme/dark/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B" width="120" alt="OpenAI">
+      <img src="https://cdn.brandfetch.io/idR3duQxYl/theme/light/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B" width="120" alt="OpenAI">
       <br /><br/>
       <strong>OpenAI</strong>
       <br>GPT-4, GPT-4 Turbo
     </td>
     <td align="center">
-      <img src="https://cdn.brandfetch.io/idW5s392j1/theme/dark/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B" width="60" alt="Anthropic">
+      <img src="https://cdn.brandfetch.io/idW5s392j1/theme/light/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B" width="60" alt="Anthropic">
       <br /><br/>
       <strong>Anthropic</strong>
       <br>Claude 3.5 Sonnet, Opus
@@ -346,7 +346,7 @@ cyrus detect src/components/UserAuth.tsx --detailed
       <br>Gemini 1.5 Pro, Flash
     </td>
     <td align="center">
-      <img src="https://cdn.brandfetch.io/iddjpnb3_W/theme/dark/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B" width="60" alt="X.AI Grok">
+      <img src="https://cdn.brandfetch.io/iddjpnb3_W/theme/light/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B" width="60" alt="X.AI Grok">
       <br /><br/>
       <strong>X.AI</strong>
     </td>
