@@ -376,11 +376,9 @@ Functions are the building blocks of JavaScript...
 Write a function that returns another function which increments a counter each time it's called.
 
 💡 Starting code:
-```javascript
 function createCounter() {
     // Your code here
 }
-```
 
 🔍 Analyzing your solution...
 ✅ Analysis complete!
